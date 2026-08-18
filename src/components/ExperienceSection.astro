@@ -1,0 +1,47 @@
+---
+import type { Experience } from "../lib/sanity/types";
+
+interface Props {
+  experience: Experience[];
+}
+
+const { experience } = Astro.props;
+
+function formatDate(value?: string) {
+  if (!value) return "Present";
+  const [year, month] = value.split("-");
+  const date = new Date(Number(year), Number(month) - 1);
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+---
+
+<section id="experience" class="mx-auto w-full max-w-[var(--container-content)] scroll-mt-20 px-6 py-20 md:px-10">
+  <h2 class="font-display text-3xl text-ink">Experience</h2>
+
+  {
+    experience.length > 0 ? (
+      <ol class="mt-10">
+        {experience.map((item) => (
+          <li class="grid grid-cols-1 gap-x-10 gap-y-2 border-t border-border py-8 first:border-t-0 md:grid-cols-[12rem_1fr]">
+            <p class="text-sm text-ink-faint">
+              {formatDate(item.startDate)} — {formatDate(item.endDate)}
+            </p>
+            <div>
+              <h3 class="font-display text-xl text-ink">
+                {item.role} · <span class="text-ink-soft">{item.organization}</span>
+              </h3>
+              {item.summary && (
+                <p class="mt-2 max-w-2xl text-ink-soft">{item.summary}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <p class="mt-10 border border-dashed border-border px-6 py-10 text-center text-ink-soft">
+        Experience entries will appear here once they're added in Sanity
+        Studio.
+      </p>
+    )
+  }
+</section>

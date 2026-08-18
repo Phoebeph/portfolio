@@ -1,17 +1,47 @@
 ---
+// Astro frontmatter runs on the server (at build time for a static site
+// like this one) — top-level `await` here means these four Sanity reads
+// happen once, during `astro build`, and the page ships as plain HTML with
+// the results already baked in. No fetch happens in the visitor's browser.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Hero from "../components/Hero.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import SkillsSection from "../components/SkillsSection.astro";
+import ExperienceSection from "../components/ExperienceSection.astro";
+import ArticlesSection from "../components/ArticlesSection.astro";
+import ContactCta from "../components/ContactCta.astro";
+import Footer from "../components/Footer.astro";
+import {
+  getProfile,
+  getFeaturedProjects,
+  getExperience,
+  getLatestArticles,
+} from "../lib/sanity/queries";
 
+const [profile, projects, experience, articles] = await Promise.all([
+  getProfile(),
+  getFeaturedProjects(),
+  getExperience(),
+  getLatestArticles(),
+]);
+
+const description =
+  profile.tagline ??
+  `${profile.name} — ${profile.role}. Portfolio built with Astro, React, and Sanity.`;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={`${profile.name} — ${profile.role}`} description={description}>
+  <Navigation name={profile.name} />
+
+  <main id="main-content">
+    <Hero profile={profile} />
+    <ProjectsSection projects={projects} />
+    <SkillsSection />
+    <ExperienceSection experience={experience} />
+    <ArticlesSection articles={articles} />
+    <ContactCta profile={profile} />
+  </main>
+
+  <Footer name={profile.name} />
+</BaseLayout>

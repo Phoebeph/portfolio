@@ -1,0 +1,40 @@
+---
+import type { Profile } from "../lib/sanity/types";
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+---
+
+<section class="mx-auto w-full max-w-[var(--container-content)] px-6 pt-16 pb-20 md:px-10 md:pt-24 md:pb-28">
+  <p class="text-sm tracking-wide text-ink-soft uppercase">{profile.role}</p>
+
+  <h1 class="mt-4 max-w-3xl font-display text-4xl leading-[1.1] text-ink sm:text-5xl md:text-6xl">
+    {profile.tagline}
+  </h1>
+
+  <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+    {profile.bio}
+  </p>
+
+  <div class="mt-10 flex flex-wrap items-center gap-6">
+    <a
+      href="#projects"
+      class="border border-ink px-6 py-3 text-sm text-ink transition-colors hover:bg-ink hover:text-paper"
+    >
+      View selected work
+    </a>
+    {
+      profile.resumeUrl && (
+        <a
+          href={profile.resumeUrl}
+          class="text-sm text-ink-soft underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+        >
+          Download résumé
+        </a>
+      )
+    }
+  </div>
+</section>

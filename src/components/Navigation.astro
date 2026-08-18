@@ -1,0 +1,43 @@
+---
+import MobileMenu from "./react/MobileMenu";
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const navLinks = [
+  { href: "#projects", label: "Projects" },
+  { href: "#skills", label: "Skills" },
+  { href: "#experience", label: "Experience" },
+  { href: "#articles", label: "Writing" },
+  { href: "#contact", label: "Contact" },
+];
+---
+
+<header class="sticky top-0 z-30 border-b border-border bg-paper">
+  <div
+    class="mx-auto flex w-full max-w-[var(--container-content)] items-center justify-between px-6 py-4 md:px-10"
+  >
+    <a href="#main-content" class="font-display text-lg text-ink">
+      {name}
+    </a>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-8 text-sm text-ink-soft">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="transition-colors hover:text-ink">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <MobileMenu links={navLinks} client:load />
+  </div>
+</header>

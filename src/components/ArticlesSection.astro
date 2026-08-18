@@ -1,0 +1,46 @@
+---
+import type { Article } from "../lib/sanity/types";
+
+interface Props {
+  articles: Article[];
+}
+
+const { articles } = Astro.props;
+
+function formatDate(value: string) {
+  return new Date(value).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+---
+
+<section id="articles" class="border-t border-border bg-paper-dim">
+  <div class="mx-auto w-full max-w-[var(--container-content)] scroll-mt-20 px-6 py-20 md:px-10">
+    <h2 class="font-display text-3xl text-ink">Latest writing</h2>
+
+    {
+      articles.length > 0 ? (
+        <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
+          {articles.map((article) => (
+            <a
+              href={article.externalUrl}
+              class="group block border-t border-border pt-6 transition-colors hover:border-accent"
+            >
+              <p class="text-sm text-ink-faint">{formatDate(article.publishedAt)}</p>
+              <h3 class="mt-2 font-display text-xl text-ink group-hover:text-accent">
+                {article.title}
+              </h3>
+              <p class="mt-2 text-ink-soft">{article.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="mt-10 border border-dashed border-border px-6 py-10 text-center text-ink-soft">
+          Articles will appear here once they're added in Sanity Studio.
+        </p>
+      )
+    }
+  </div>
+</section>

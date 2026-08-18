@@ -17,6 +17,14 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Sanity Studio local cache
+.sanity/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
 # macOS-specific files
 .DS_Store
 

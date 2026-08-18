@@ -1,0 +1,47 @@
+---
+import type { Profile } from "../lib/sanity/types";
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+---
+
+<section id="contact" class="mx-auto w-full max-w-[var(--container-content)] scroll-mt-20 px-6 py-24 text-center md:px-10">
+  <h2 class="font-display text-3xl text-ink sm:text-4xl">
+    Let's work together.
+  </h2>
+  <p class="mx-auto mt-4 max-w-md text-ink-soft">
+    Open to junior frontend roles and freelance projects. The fastest way to
+    reach me is email.
+  </p>
+
+  {
+    profile.email && (
+      <a
+        href={`mailto:${profile.email}`}
+        class="mt-8 inline-block border border-ink px-8 py-3 text-sm text-ink transition-colors hover:bg-ink hover:text-paper"
+      >
+        {profile.email}
+      </a>
+    )
+  }
+
+  {
+    profile.socialLinks && profile.socialLinks.length > 0 && (
+      <ul class="mt-8 flex justify-center gap-6 text-sm text-ink-soft">
+        {profile.socialLinks.map((link) => (
+          <li>
+            <a
+              href={link.url}
+              class="underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+            >
+              {link.platform}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>

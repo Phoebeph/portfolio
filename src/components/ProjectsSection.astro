@@ -1,0 +1,32 @@
+---
+import type { Project } from "../lib/sanity/types";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section id="projects" class="mx-auto w-full max-w-[var(--container-content)] scroll-mt-20 px-6 py-20 md:px-10">
+  <div class="flex items-baseline justify-between">
+    <h2 class="font-display text-3xl text-ink">Selected projects</h2>
+    <span class="text-sm text-ink-faint">Featured work</span>
+  </div>
+
+  {
+    projects.length > 0 ? (
+      <div class="mt-10">
+        {projects.map((project, index) => (
+          <ProjectCard project={project} index={index} />
+        ))}
+      </div>
+    ) : (
+      <p class="mt-10 border border-dashed border-border px-6 py-10 text-center text-ink-soft">
+        Featured projects will appear here once they're added and marked
+        “Featured” in Sanity Studio.
+      </p>
+    )
+  }
+</section>
